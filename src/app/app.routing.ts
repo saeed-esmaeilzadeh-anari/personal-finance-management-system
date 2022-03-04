@@ -2,6 +2,9 @@ import { Routes } from '@angular/router';
 import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
+import { DashboardComponent } from 'app/screens/dashboard/dashboard.component';
+import { ExpenseScreenComponent } from 'app/screens/Finance/Expense/Expense-screen.component';
+import { IncomeScreenComponent } from 'app/screens/Finance/Income/Income-screen.component';
 // import { LayoutComponent } from 'app/layout/layout.component';
 
 export const appRoutes: Routes = [
@@ -14,17 +17,23 @@ export const appRoutes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () =>
-          import('./dashboard/dashboard.module').then(
-            (m: any) => m.DashboardModule
-          ),
+        component: DashboardComponent,
       },
       {
         path: 'dashboard',
-        loadChildren: () =>
-          import('./dashboard/dashboard.module').then(
-            (m: any) => m.DashboardModule
-          ),
+        component: DashboardComponent,
+      },
+      {
+        path: 'income',
+        component: IncomeScreenComponent,
+      },
+      {
+        path: 'expense',
+        component: ExpenseScreenComponent,
+      },
+      {
+        path: 'investment',
+        component: IncomeScreenComponent,
       },
     ],
   },

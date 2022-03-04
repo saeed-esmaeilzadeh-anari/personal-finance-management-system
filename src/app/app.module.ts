@@ -12,6 +12,8 @@ import { FuseConfigModule } from '@Components/services/config';
 import { appConfig } from 'app/core/config/app.config';
 import { MarkdownModule } from 'ngx-markdown';
 import { LayoutModule } from 'app/layout/layout.module';
+import { DashboardModule } from 'app/screens/dashboard/dashboard.module';
+import { FinanceModule } from 'app/screens/Finance/Finance.module';
 
 const routerConfig: ExtraOptions = {
   preloadingStrategy: PreloadAllModules,
@@ -26,6 +28,8 @@ const routerConfig: ExtraOptions = {
     RouterModule.forRoot(appRoutes, routerConfig),
     MatButtonModule,
     WavpayModule,
+    DashboardModule,
+    FinanceModule,
     FuseConfigModule.forRoot(appConfig),
 
     MatIconModule,

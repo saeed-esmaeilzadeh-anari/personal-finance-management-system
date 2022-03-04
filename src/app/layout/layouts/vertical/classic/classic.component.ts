@@ -4,21 +4,28 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FuseMediaWatcherService } from '@Components/services/media-watcher';
 import {
+  FuseNavigationItem,
   FuseNavigationService,
   FuseVerticalNavigationComponent,
 } from '@Components/components/navigation';
 import { Navigation } from 'app/core/navigation/navigation.types';
 
 import { NavigatorService } from 'app/core/navigation/navigator.service';
+import { defaultNavigation } from 'app/layout/navigationMenu';
 
 @Component({
   selector: 'classic-layout',
   templateUrl: './classic.component.html',
+  styles: [
+    '.logo {font-size: 30px !important;font-weight: bolder !important;text-transform: uppercase !important;}',
+  ],
   encapsulation: ViewEncapsulation.None,
 })
 export class ClassicLayoutComponent implements OnInit, OnDestroy {
   isScreenSmall: boolean;
   navigation!: Navigation | undefined;
+  default: FuseNavigationItem[] = defaultNavigation;
+
   private _unsubscribeAll: Subject<any> = new Subject<any>();
   /**
    * Constructor

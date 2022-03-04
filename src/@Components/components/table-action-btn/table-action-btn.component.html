@@ -1,0 +1,21 @@
+<ng-container *ngIf="actionLink;else actionBtn">
+  <button matRipple [routerLink]="actionLink" type="button" class="table-action-btn"
+    [ngClass]="{'rounded-l-md': ActionBtnPosition==='left','rounded-r-md': ActionBtnPosition==='right'}">
+    <mat-icon class="icon-size-4 ml-1 mr-1 h-5 w-5 text-blue-400"
+      [ngClass]="{'text-red-400': actionIcon === 'mat_outline:delete_forever','text-blue-400': actionIcon !== 'mat_outline:delete_forever'}"
+      [svgIcon]="actionIcon">
+    </mat-icon>
+    {{actionTitle}}
+  </button>
+</ng-container>
+
+<ng-template #actionBtn>
+  <button matRipple (click)="onActionClick()" type="button" class="table-action-btn"
+    [ngClass]="{'rounded-l-md': ActionBtnPosition==='left','rounded-r-md': ActionBtnPosition==='right'}">
+    <mat-icon class="icon-size-4 ml-1 mr-1 h-5 w-5 "
+      [ngClass]="{'text-red-400': actionIcon === 'mat_outline:delete_forever','text-blue-400': actionIcon !== 'mat_outline:delete_forever'}"
+      [svgIcon]="actionIcon">
+    </mat-icon>
+    {{actionTitle}}
+  </button>
+</ng-template>

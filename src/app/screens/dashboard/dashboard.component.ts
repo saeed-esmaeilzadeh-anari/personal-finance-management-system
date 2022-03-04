@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
   constructor() {}
-
+  user = {
+    firstName: 'Aditya',
+    lastName: 'Parmar',
+  };
   ngOnInit(): void {}
 }

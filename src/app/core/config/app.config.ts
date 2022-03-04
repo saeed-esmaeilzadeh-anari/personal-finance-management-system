@@ -23,6 +23,6 @@ export interface AppConfig {
  */
 export const appConfig: AppConfig = {
   layout: 'classic',
-  scheme: 'dark',
-  theme: 'default',
+  scheme: 'auto',
+  theme: 'brand',
 };
