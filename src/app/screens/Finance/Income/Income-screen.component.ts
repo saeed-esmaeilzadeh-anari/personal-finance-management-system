@@ -75,9 +75,9 @@ export class IncomeScreenComponent implements OnInit {
   openDeleteDialog(id: number): void {
     // Open the dialog
     let congif: FuseConfirmationConfig = {
-      title: 'Remove Brand',
+      title: 'Remove Income',
       message:
-        'Are you sure you want to remove this Brand permanently? <span class="font-medium">This action cannot be undone!</span>',
+        'Are you sure you want to remove this Income permanently? <span class="font-medium">This action cannot be undone!</span>',
       icon: {
         show: true,
         name: 'heroicons_outline:exclamation',
@@ -103,7 +103,7 @@ export class IncomeScreenComponent implements OnInit {
         this._service.deleteIncome(id).subscribe((data) => {
           console.log(data);
           if (data) {
-            this._alertMessageService.success('Brand Deleted successfully');
+            this._alertMessageService.success('Income Deleted successfully');
             this.getIncomeList();
           }
         });

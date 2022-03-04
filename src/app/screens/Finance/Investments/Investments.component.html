@@ -1,3 +1,204 @@
-<p>
-  Investments works!
-</p>
+<div class="flex flex-col flex-auto w-80 min-w-80 p-2 md:p-4">
+  <!-- Header -->
+  <div class="
+      relative
+      flex flex-col
+      sm:flex-row
+      flex-0
+      sm:items-center sm:justify-between
+      py-3
+    ">
+    <!-- Title -->
+    <div class="text-4xl font-extrabold tracking-tight">Investment</div>
+    <!-- Actions -->
+    <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+      <!-- Search -->
+      <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+        <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:search'"></mat-icon>
+        <input matInput [autocomplete]="'off'" [placeholder]="'Search Investment entries'"
+          (keyup)="search($event.target)" />
+      </mat-form-field>
+      <!-- New note -->
+      <button class="ml-4 px-1 sm:px-4 min-w-10" mat-flat-button [color]="'primary'" (click)="openComposeDialog()">
+        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
+        <span class="hidden sm:inline-block ml-2">New Investment Entry</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- This example requires Tailwind CSS v2.0+ -->
+  <div class="flex flex-col flex-auto mt-2 overflow-hidden">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <ng-container>
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col" class="
+                      px-6
+                      py-3
+                      text-left text-xs
+                      font-medium
+                      text-gray-500
+                      uppercase
+                      tracking-wider
+                    ">
+                    No
+                  </th>
+                  <th scope="col" class="
+                      px-6
+                      py-3
+                      text-left text-xs
+                      font-medium
+                      text-gray-500
+                      uppercase
+                      tracking-wider
+                    ">
+                    Image
+                  </th>
+                  <th scope="col" class="
+                      px-6
+                      py-3
+                      text-left text-xs
+                      font-medium
+                      text-gray-500
+                      uppercase
+                      tracking-wider
+                    ">
+                    Name
+                  </th>
+                  <th scope="col" class="
+                      px-6
+                      py-3
+                      text-left text-xs
+                      font-medium
+                      text-gray-500
+                      uppercase
+                      tracking-wider
+                    ">
+                    Created
+                  </th>
+                  <th scope="col" class="
+                      px-6
+                      py-3
+                      text-left text-xs
+                      font-medium
+                      text-gray-500
+                      uppercase
+                      tracking-wider
+                    ">
+                    Status
+                  </th>
+                  <th scope="col" class="
+                  px-6
+                  py-3
+                  text-left text-xs
+                  font-medium
+                  text-gray-500
+                  uppercase
+                  tracking-wider
+                  text-right
+                ">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody *ngIf="!isLoading && table$.length>=1" class="bg-white divide-y divide-gray-200">
+                <tr *ngFor="
+                    let item of table$;
+                    let i = index;
+                    
+                  ">
+                  <td class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      text-sm
+                      font-medium
+                      text-gray-900
+                    ">
+                    {{ i + 1 }}
+                  </td>
+                  <td class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      text-sm
+                      font-medium
+                      text-gray-900
+                    ">
+
+                  </td>
+                  <td class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      text-sm
+                      font-medium
+                      text-gray-900
+                    ">
+                    {{ item.name }}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {{ item.createdAt|date: 'medium' }}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+
+
+                  </td>
+                  <td class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      text-right text-sm
+                      font-medium
+                    ">
+                    <span class="relative z-0 inline-flex shadow-sm rounded-md">
+                      <app-table-action-btn [ActionBtnPosition]="'left'" [actionTitle]="'Edit'"
+                        (actionClicked)="openEditDialog(item)" [actionIcon]="'mat_outline:edit_note'">
+                      </app-table-action-btn>
+
+                      <app-table-action-btn [ActionBtnPosition]="'right'" [actionTitle]="'Delete'"
+                        (actionClicked)="openDeleteDialog(item.id)" [actionIcon]="'mat_outline:delete_forever'">
+                      </app-table-action-btn>
+
+                    </span>
+
+
+                  </td>
+                </tr>
+
+                <!-- More people... -->
+              </tbody>
+
+            </table>
+            <ng-container *ngIf="table$.length===0">
+              <!-- This example requires Tailwind CSS v2.0+ -->
+              <div class="bg-white w-full flex justify-center items-center">
+
+                <button type="button"
+                  class="relative block w-full rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <mat-icon class="h-32 w32" svgIcon="heroicons_outline:emoji-sad"></mat-icon>
+                  <span class="mt-2 block text-sm font-medium text-gray-900">
+                    No item Found
+                  </span>
+                </button>
+              </div>
+
+            </ng-container>
+            <app-table-loader *ngIf="isLoading"></app-table-loader>
+
+            <mat-paginator [length]="this.pagination.total" [pageIndex]="this.pagination.pageNumber"
+              [pageSize]="this.pagination.batchSize" [pageSizeOptions]="[10,20, 50,100]"
+              (page)="paginationChange($event)" aria-label="Select page">
+            </mat-paginator>
+          </ng-container>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

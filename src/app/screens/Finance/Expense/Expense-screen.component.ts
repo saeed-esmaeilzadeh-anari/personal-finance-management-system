@@ -75,9 +75,9 @@ export class ExpenseScreenComponent implements OnInit {
   openDeleteDialog(id: number): void {
     // Open the dialog
     let congif: FuseConfirmationConfig = {
-      title: 'Remove Expeanse',
+      title: 'Remove Expense',
       message:
-        'Are you sure you want to remove this Expeanse permanently? <span class="font-medium">This action cannot be undone!</span>',
+        'Are you sure you want to remove this Expense permanently? <span class="font-medium">This action cannot be undone!</span>',
       icon: {
         show: true,
         name: 'heroicons_outline:exclamation',
@@ -103,7 +103,7 @@ export class ExpenseScreenComponent implements OnInit {
         this._service.deleteExpense(id).subscribe((data) => {
           console.log(data);
           if (data) {
-            this._alertMessageService.success('Expeanse Removes successfully');
+            this._alertMessageService.success('Expense Removes successfully');
             this.getExpenseList();
           }
         });

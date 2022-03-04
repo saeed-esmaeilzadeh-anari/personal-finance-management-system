@@ -27,6 +27,8 @@ import { TableLoaderModule } from '@Components/components/table-loader/table-loa
 import { IncomeAddComponent } from 'app/screens/Finance/Income/add/Income-add.component';
 import { AlertMessageModule } from '@Components/components/alert-message/alert-message.module';
 import { ExpenseAddComponent } from 'app/screens/Finance/Expense/add/Expense-add.component';
+import { InvestmentAddComponent } from 'app/screens/Finance/Investments/add/Investment-add.component';
+import { InvestmentsComponent } from 'app/screens/Finance/Investments/Investments.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -58,12 +60,16 @@ import { ExpenseAddComponent } from 'app/screens/Finance/Expense/add/Expense-add
     IncomeAddComponent,
     ExpenseScreenComponent,
     ExpenseAddComponent,
+    InvestmentsComponent,
+    InvestmentAddComponent,
   ],
   exports: [
     IncomeScreenComponent,
     IncomeAddComponent,
     ExpenseScreenComponent,
     ExpenseAddComponent,
+    InvestmentsComponent,
+    InvestmentAddComponent,
   ],
 })
 export class FinanceModule {}
