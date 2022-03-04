@@ -26,6 +26,7 @@ import { TableActionBtnModule } from '@Components/components/table-action-btn/ta
 import { TableLoaderModule } from '@Components/components/table-loader/table-loader.module';
 import { IncomeAddComponent } from 'app/screens/Finance/Income/add/Income-add.component';
 import { AlertMessageModule } from '@Components/components/alert-message/alert-message.module';
+import { ExpenseAddComponent } from 'app/screens/Finance/Expense/add/Expense-add.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -54,9 +55,15 @@ import { AlertMessageModule } from '@Components/components/alert-message/alert-m
   ],
   declarations: [
     IncomeScreenComponent,
-    ExpenseScreenComponent,
     IncomeAddComponent,
+    ExpenseScreenComponent,
+    ExpenseAddComponent,
   ],
-  exports: [IncomeScreenComponent, ExpenseScreenComponent, IncomeAddComponent],
+  exports: [
+    IncomeScreenComponent,
+    IncomeAddComponent,
+    ExpenseScreenComponent,
+    ExpenseAddComponent,
+  ],
 })
 export class FinanceModule {}

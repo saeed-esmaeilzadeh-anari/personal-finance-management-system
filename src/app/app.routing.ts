@@ -5,6 +5,7 @@ import { LayoutComponent } from 'app/layout/layout.component';
 import { DashboardComponent } from 'app/screens/dashboard/dashboard.component';
 import { ExpenseScreenComponent } from 'app/screens/Finance/Expense/Expense-screen.component';
 import { IncomeScreenComponent } from 'app/screens/Finance/Income/Income-screen.component';
+import { InvestmentsComponent } from 'app/screens/Finance/Investments/Investments.component';
 // import { LayoutComponent } from 'app/layout/layout.component';
 
 export const appRoutes: Routes = [
@@ -33,7 +34,7 @@ export const appRoutes: Routes = [
       },
       {
         path: 'investment',
-        component: IncomeScreenComponent,
+        component: InvestmentsComponent,
       },
     ],
   },
