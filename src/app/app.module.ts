@@ -14,6 +14,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { LayoutModule } from 'app/layout/layout.module';
 import { DashboardModule } from 'app/screens/dashboard/dashboard.module';
 import { FinanceModule } from 'app/screens/Finance/Finance.module';
+import { AlertMessageModule } from '@Components/components/alert-message/alert-message.module';
 
 const routerConfig: ExtraOptions = {
   preloadingStrategy: PreloadAllModules,
@@ -31,6 +32,7 @@ const routerConfig: ExtraOptions = {
     DashboardModule,
     FinanceModule,
     FuseConfigModule.forRoot(appConfig),
+    AlertMessageModule,
 
     MatIconModule,
     // Core module of your application

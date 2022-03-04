@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AlertMessageService } from '@Components/components/alert-message/alert-message.service';
 import {
   FuseConfirmationConfig,
   FuseConfirmationService,
 } from '@Components/services/confirmation';
 import { SearchPaginationParams } from 'app/models/SearchPaginationParams';
+import { IncomeAddComponent } from 'app/screens/Finance/Income/add/Income-add.component';
 import { IncomeScreenService } from 'app/screens/Finance/Income/Income-screen.service';
 
 @Component({
@@ -19,23 +21,24 @@ export class IncomeScreenComponent implements OnInit {
   constructor(
     private _matDialog: MatDialog,
     private _confirmationService: FuseConfirmationService,
-    private _service: IncomeScreenService
+    private _service: IncomeScreenService,
+    private _alertMessageService: AlertMessageService
   ) {}
 
   ngOnInit(): void {
-    this.getBrands();
+    this.getIncomeList();
   }
   search(q: any): void {
     this.pagination.name = q.value;
-    this.getBrands();
+    this.getIncomeList();
   }
   paginationChange(event: any): void {
     this.pagination.pageNumber = event.pageIndex;
     this.pagination.batchSize = event.pageSize;
-    this.getBrands();
+    this.getIncomeList();
     console.log(event);
   }
-  getBrands(): void {
+  getIncomeList(): void {
     this.isLoading = false;
     this._service.searchIncomes(this.pagination).subscribe(
       (data: any) => {
@@ -55,19 +58,19 @@ export class IncomeScreenComponent implements OnInit {
    */
   openComposeDialog(): void {
     // Open the dialog
-    // const dialogRef = this._matDialog.open(BrandAddComponent);
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   if (result) this.getBrands();
-    // });
+    const dialogRef = this._matDialog.open(IncomeAddComponent);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) this.getIncomeList();
+    });
   }
   openEditDialog(data: any): void {
     // Open the dialog
-    // const dialogRef = this._matDialog.open(BrandAddComponent, {
-    //   data: data,
-    // });
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   if (result) this.getBrands();
-    // });
+    const dialogRef = this._matDialog.open(IncomeAddComponent, {
+      data: data,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) this.getIncomeList();
+    });
   }
   openDeleteDialog(id: number): void {
     // Open the dialog
@@ -100,8 +103,8 @@ export class IncomeScreenComponent implements OnInit {
         this._service.deleteIncome(id).subscribe((data) => {
           console.log(data);
           if (data) {
-            // this._alertMessageService.success('Brand Deleted successfully');
-            this.getBrands();
+            this._alertMessageService.success('Brand Deleted successfully');
+            this.getIncomeList();
           }
         });
       }

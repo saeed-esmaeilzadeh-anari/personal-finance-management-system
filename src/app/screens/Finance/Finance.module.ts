@@ -24,6 +24,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { FuseConfirmationModule } from '@Components/services/confirmation';
 import { TableActionBtnModule } from '@Components/components/table-action-btn/table-action-btn.module';
 import { TableLoaderModule } from '@Components/components/table-loader/table-loader.module';
+import { IncomeAddComponent } from 'app/screens/Finance/Income/add/Income-add.component';
+import { AlertMessageModule } from '@Components/components/alert-message/alert-message.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -50,7 +52,11 @@ import { TableLoaderModule } from '@Components/components/table-loader/table-loa
     TableActionBtnModule,
     TableLoaderModule,
   ],
-  declarations: [IncomeScreenComponent, ExpenseScreenComponent],
-  exports: [IncomeScreenComponent, ExpenseScreenComponent],
+  declarations: [
+    IncomeScreenComponent,
+    ExpenseScreenComponent,
+    IncomeAddComponent,
+  ],
+  exports: [IncomeScreenComponent, ExpenseScreenComponent, IncomeAddComponent],
 })
 export class FinanceModule {}
