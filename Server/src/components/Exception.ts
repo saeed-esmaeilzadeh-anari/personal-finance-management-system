@@ -7,7 +7,7 @@ export class Exception {
   constructor(msg: string, status: number, error: any) {
     this.status = status;
     this.msg = msg;
-    this.message = error.message;
+    this.message = error.message.toString();
     this.stack = error.stack;
   }
   send() {

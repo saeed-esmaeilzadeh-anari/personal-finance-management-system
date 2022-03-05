@@ -3,8 +3,12 @@ import { SearchIncomeParams, IncomePostModel } from "./IncomeModel";
 const prisma = new PrismaClient();
 
 export default class IncomeService {
-  async getIncomes() {
-    const income = await prisma.income.findMany();
+  async getIncomes(userId) {
+    const income = await prisma.income.findMany({
+      where: {
+        userId,
+      },
+    });
     return income;
   }
 
@@ -30,16 +34,16 @@ export default class IncomeService {
 
   async searchIncomes(data: SearchIncomeParams) {
     const { name, batchSize, order, pageNumber, sortColumn } = data;
-    const params = {
-      name,
-      batchSize,
-      order,
-      pageNumber,
-      sortColumn,
-    };
+    console.log(data);
+    const total = await prisma.income.count({
+      where: {
+        userId: data.userId,
+      },
+    });
     const income = await prisma.income.findMany({
       where: {
         name: { contains: name },
+        userId: data.userId,
       },
       orderBy: {
         [sortColumn]: order,
@@ -47,6 +51,6 @@ export default class IncomeService {
       skip: batchSize * pageNumber,
       take: batchSize,
     });
-    return income;
+    return { data: income, totalItems: total };
   }
 }

@@ -2,17 +2,21 @@ import express, { Request, Response, Router } from "express";
 import {
   IncomePostModel,
   IncomePutModel,
-} from "src/components/Income/IncomeModel";
+  SearchIncomeParams,
+} from "./IncomeModel";
+import Auth from "../../middleware/Auth";
 import { Exception } from "../Exception";
 import IncomeService from "./IncomeService";
 
 const IncomeRouter: Router = express.Router();
 const incomeService = new IncomeService();
 /* get all  */
-IncomeRouter.get("/income", (req: Request, res: Response): void => {
+IncomeRouter.get("/income", Auth, (req: Request, res: Response): void => {
   try {
+    let userId = req.userId;
+    console.log(userId);
     incomeService
-      .getIncomes()
+      .getIncomes(userId)
       .then((incomes) => {
         if (incomes.length) {
           res.json(incomes);
@@ -64,22 +68,30 @@ IncomeRouter.get("/income/:id", (req: Request, res: Response): void => {
   }
 });
 /* search  */
-IncomeRouter.get("/searchIncomes", (req: Request, res: Response): void => {
-  try {
-    incomeService
-      .searchIncomes(req.query)
-      .then((incomes) => {
-        res.json(incomes);
-      })
-      .catch((error) => {
-        const err = new Exception("error in search Income ", 500, error);
-        res.status(500).send(err.send());
-      });
-  } catch (error) {
-    const err = new Exception("error in search Income ", 500, error);
-    res.status(500).send(err.send());
+IncomeRouter.get(
+  "/searchIncomes",
+  Auth,
+  (req: Request, res: Response): void => {
+    try {
+      let userId = req.userId;
+      let data = new SearchIncomeParams(req.query);
+
+      data.userId = userId;
+      incomeService
+        .searchIncomes(data)
+        .then((incomes) => {
+          res.json(incomes);
+        })
+        .catch((error) => {
+          const err = new Exception("error in search Income ", 500, error);
+          res.status(500).send(err.send());
+        });
+    } catch (error) {
+      const err = new Exception("error in search Income ", 500, error);
+      res.status(500).send(err.send());
+    }
   }
-});
+);
 /* add one  */
 IncomeRouter.post("/income", (req: Request, res: Response): void => {
   try {
