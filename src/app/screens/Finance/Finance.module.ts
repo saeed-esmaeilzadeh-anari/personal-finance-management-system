@@ -29,6 +29,7 @@ import { AlertMessageModule } from '@Components/components/alert-message/alert-m
 import { ExpenseAddComponent } from 'app/screens/Finance/Expense/add/Expense-add.component';
 import { InvestmentAddComponent } from 'app/screens/Finance/Investments/add/Investment-add.component';
 import { InvestmentsComponent } from 'app/screens/Finance/Investments/Investments.component';
+import { SharedModule } from 'app/shared/shared.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -54,6 +55,7 @@ import { InvestmentsComponent } from 'app/screens/Finance/Investments/Investment
     MatStepperModule,
     TableActionBtnModule,
     TableLoaderModule,
+    SharedModule,
   ],
   declarations: [
     IncomeScreenComponent,

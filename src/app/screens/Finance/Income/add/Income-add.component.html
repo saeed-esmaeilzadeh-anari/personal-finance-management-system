@@ -1,3 +1,106 @@
-<p>
-  Income-add works!
-</p>
+<div class="flex flex-col max-w-240 md:min-w-140 max-h-screen -m-6">
+  <!-- Header -->
+  <div class="
+      flex flex-0
+      items-center
+      justify-between
+      h-16
+      pr-3
+      sm:pr-5
+      pl-6
+      sm:pl-8
+      bg-primary
+      text-on-primary
+    ">
+    <div class="text-lg font-medium">
+      {{ !isEdit ? "New Income" : "Edit Income" }}
+    </div>
+    <button mat-icon-button (click)="exit()" [tabIndex]="-1">
+      <mat-icon class="text-current" [svgIcon]="'heroicons_outline:x'"></mat-icon>
+    </button>
+  </div>
+
+
+
+  <!-- Compose form -->
+  <form #addFormRef="ngForm" [formGroup]="Form" class="flex flex-col flex-auto p-6 sm:p-8 overflow-y-auto"
+    (ngSubmit)="submit()">
+    <div class="px-4 py-5 bg-white sm:p-6">
+      <div class="grid grid-cols-6 gap-6">
+        <div class="col-span-6">
+          <mat-form-field class="w-1/2 px-3">
+            <mat-label>Income Name</mat-label>
+            <input matInput required [formControlName]="'name'" />
+            <mat-error *ngIf="Form.get('name').hasError('required')">
+              Income name is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="w-1/2">
+            <mat-label>Amount</mat-label>
+            <input onfocus="this.select()" matInput [formControlName]="'amount'" required type="number" />
+            <mat-error *ngIf="Form.get('amount').hasError('required')">
+              Amount is required
+            </mat-error>
+            <mat-error *ngIf="Form.get('amount').hasError('min')">
+              Invalid Amount
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-span-6">
+          <mat-form-field class="w-full px-3">
+            <mat-label>Note </mat-label>
+            <textarea matInput [formControlName]="'note'"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="col-span-6">
+          <mat-form-field class="w-1/2 px-3">
+            <mat-label>Received From</mat-label>
+            <input matInput required [formControlName]="'receivedFrom'" />
+            <mat-error *ngIf="Form.get('receivedFrom').hasError('required')">
+              Received From is required
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="w-1/2 px-3">
+            <mat-label>Type</mat-label>
+            <mat-select required [formControlName]="'type'">
+              <ng-container *ngFor="let item of types">
+                <mat-option [value]="item.id">
+                  {{ item.name }}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+            <mat-error *ngIf="Form.get('type').hasError('required')">
+              type is required
+            </mat-error>
+          </mat-form-field>
+
+        </div>
+
+      </div>
+    </div>
+    <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+      <button type="submit" class="
+          inline-flex
+          justify-center
+          py-2
+          px-4
+          border border-transparent
+          shadow-sm
+          text-sm
+          font-medium
+          rounded-md
+          text-white
+          bg-indigo-600
+          hover:bg-indigo-700
+          focus:outline-none
+          focus:ring-2
+          focus:ring-offset-2
+          focus:ring-indigo-500
+        ">
+        {{ !isEdit ? "Save" : "Update" }}
+      </button>
+    </div>
+  </form>
+</div>
