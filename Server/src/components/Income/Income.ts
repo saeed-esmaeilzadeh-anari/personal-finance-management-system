@@ -3,7 +3,7 @@ import {
   IncomePostModel,
   IncomePutModel,
 } from "src/components/Income/IncomeModel";
-import { Exception } from "../../Exception";
+import { Exception } from "../Exception";
 import IncomeService from "./IncomeService";
 
 const IncomeRouter: Router = express.Router();
@@ -42,7 +42,7 @@ IncomeRouter.get("/income/:id", (req: Request, res: Response): void => {
     incomeService
       .getIncome(id)
       .then((income) => {
-        if (income.length) {
+        if (income) {
           res.json(income[0]);
           return;
         }
@@ -124,7 +124,7 @@ IncomeRouter.put("/income/:id", (req: Request, res: Response): void => {
     incomeService
       .getIncome(id)
       .then((income) => {
-        if (income.length) {
+        if (income) {
           incomeService
             .updateIncome(id, data)
             .then((income) => {

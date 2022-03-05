@@ -14,6 +14,5 @@ export interface UserPostModel {
 export interface UserPutModel {
   name: string;
   email: string;
-  password: string;
   updatedAt: Date;
 }

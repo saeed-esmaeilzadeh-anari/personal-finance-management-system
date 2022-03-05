@@ -15,7 +15,7 @@ export default class UserService {
   }
 
   getUser(id: number) {
-    return prisma.user.findMany({
+    return prisma.user.findFirst({
       select: {
         id: true,
         name: true,
@@ -26,16 +26,30 @@ export default class UserService {
       where: { id },
     });
   }
+  getUserByEmail(email: string) {
+    return prisma.user.findFirst({
+      where: { email },
+    });
+  }
 
   addUser(data: any) {
     return prisma.user.create({ data });
   }
 
-  updateUser(id: number, data: any) {
+  async updateUser(id: number, data: any) {
+    let user = await this.getUser(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
     return prisma.user.update({ where: { id }, data });
   }
 
-  deleteUser(id: number) {
+  async deleteUser(id: number) {
+    let user = await this.getUser(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+
     return prisma.user.delete({ where: { id } });
   }
 }

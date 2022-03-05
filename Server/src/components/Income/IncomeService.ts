@@ -9,7 +9,7 @@ export default class IncomeService {
   }
 
   async getIncome(id: number) {
-    const income = await prisma.income.findMany({ where: { id } });
+    const income = await prisma.income.findFirst({ where: { id } });
     return income;
   }
 
