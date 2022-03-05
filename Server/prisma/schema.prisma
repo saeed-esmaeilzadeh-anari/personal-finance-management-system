@@ -11,9 +11,9 @@ datasource db {
 }
 
 model User {
-  id          Int @id @default(autoincrement()) 
+  id          Int @id @default(autoincrement()) @unique 
   name        String @db.VarChar(25)
-  email       String
+  email       String @unique
   password    String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -21,7 +21,7 @@ model User {
 }
 
 model Income {
-  id          Int @id @default(autoincrement()) 
+  id          Int @id @default(autoincrement()) @unique
   name        String @db.VarChar(25)
   note        String @db.Text
   receivedFrom String @db.VarChar(25)

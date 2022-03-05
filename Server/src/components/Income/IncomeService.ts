@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { SearchIncomeParams } from "./IncomeModel";
-import IncomeRepository from "./IncomeRepository";
+import { SearchIncomeParams, IncomePostModel } from "./IncomeModel";
 const prisma = new PrismaClient();
 
 export default class IncomeService {
@@ -12,9 +11,8 @@ export default class IncomeService {
     return await prisma.income.findMany({ where: { id } });
   }
 
-  async addIncome(data: any) {
-    const incomeRepository = new IncomeRepository(data);
-    return await prisma.income.create({ data: incomeRepository });
+  async addIncome(data: IncomePostModel) {
+    return await prisma.income.create({ data });
   }
 
   async updateIncome(id: number, data: any) {

@@ -6,7 +6,7 @@
     "module": "commonjs",
     "outDir": "./build",
     "baseUrl": "./",
-    "rootDir": "./src",
+    "rootDir": "src",
     "strict": false,
     "moduleResolution": "node",
     "esModuleInterop": true,

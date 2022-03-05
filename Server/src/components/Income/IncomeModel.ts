@@ -9,6 +9,24 @@ export interface IncomeModel {
   updatedAt: Date;
   userId: number;
 }
+export interface IncomePostModel {
+  name: string;
+  note: string;
+  receivedFrom: string;
+  type: string;
+  amount: number;
+  userId: number;
+}
+export interface IncomePutModel {
+  id: number;
+  name: string;
+  note: string;
+  receivedFrom: string;
+  type: string;
+  amount: number;
+  updatedAt: Date;
+  userId: number;
+}
 export class SearchIncomeParams {
   name?: string = "";
   batchSize?: number = 10;
