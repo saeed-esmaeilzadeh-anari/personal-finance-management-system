@@ -4,23 +4,28 @@ const prisma = new PrismaClient();
 
 export default class IncomeService {
   async getIncomes() {
-    return await prisma.income.findMany();
+    const income = await prisma.income.findMany();
+    return income;
   }
 
   async getIncome(id: number) {
-    return await prisma.income.findMany({ where: { id } });
+    const income = await prisma.income.findMany({ where: { id } });
+    return income;
   }
 
   async addIncome(data: IncomePostModel) {
-    return await prisma.income.create({ data });
+    const income = await prisma.income.create({ data });
+    return income;
   }
 
   async updateIncome(id: number, data: any) {
-    return await prisma.income.update({ where: { id }, data });
+    const income = await prisma.income.update({ where: { id }, data });
+    return income;
   }
 
   async deleteIncome(id: number) {
-    return await prisma.income.delete({ where: { id } });
+    const income = await prisma.income.delete({ where: { id } });
+    return income;
   }
 
   async searchIncomes(data: SearchIncomeParams) {
@@ -32,7 +37,7 @@ export default class IncomeService {
       pageNumber,
       sortColumn,
     };
-    return await prisma.income.findMany({
+    const income = await prisma.income.findMany({
       where: {
         name: { contains: name },
       },
@@ -42,5 +47,6 @@ export default class IncomeService {
       skip: batchSize * pageNumber,
       take: batchSize,
     });
+    return income;
   }
 }

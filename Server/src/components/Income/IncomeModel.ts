@@ -18,7 +18,6 @@ export interface IncomePostModel {
   userId: number;
 }
 export interface IncomePutModel {
-  id: number;
   name: string;
   note: string;
   receivedFrom: string;

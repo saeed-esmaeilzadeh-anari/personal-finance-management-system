@@ -15,16 +15,17 @@ UserRouter.get("/users", (req: Request, res: Response): void => {
           res.json(users);
           return;
         }
-        const error = new Exception(404, "User not found");
+        const err = new Exception("error in get user ", 404, "User not found");
 
-        res.status(404).send(error.send());
+        res.status(404).send(err.send());
       })
       .catch((error) => {
-        const err = new Exception(500, error);
+        const err = new Exception("error in get user ", 500, error);
+
         res.status(500).send(err.send());
       });
   } catch (error) {
-    const err = new Exception(500, error);
+    const err = new Exception("error in get user ", 500, error);
     res.status(500).send(err.send());
   }
 });
@@ -39,15 +40,15 @@ UserRouter.get("/user/:id", (req: Request, res: Response): void => {
           res.json(user[0]);
           return;
         }
-        const error = new Exception(404, "User not found");
-        res.status(404).send(error.send());
+        const err = new Exception("error in get user ", 404, "User not found");
+        res.status(404).send(err.send());
       })
       .catch((error) => {
-        const err = new Exception(500, error);
+        const err = new Exception("error in get user ", 500, error);
         res.status(500).send(err.send());
       });
   } catch (error) {
-    const err = new Exception(500, error);
+    const err = new Exception("error in get user ", 500, error);
     res.status(500).send(err.send());
   }
 });
@@ -66,11 +67,11 @@ UserRouter.post("/user", (req: Request, res: Response): void => {
         return;
       })
       .catch((error) => {
-        const err = new Exception(500, error);
+        const err = new Exception("error in add user ", 500, error);
         res.status(500).send(err.send());
       });
   } catch (error) {
-    const err = new Exception(500, error);
+    const err = new Exception("error in add user ", 500, error);
     res.status(500).send(err.send());
   }
 });
@@ -92,11 +93,11 @@ UserRouter.put("/user/:id", (req: Request, res: Response): void => {
         return;
       })
       .catch((error) => {
-        const err = new Exception(500, error);
+        const err = new Exception("error in update user ", 500, error);
         res.status(500).send(err.send());
       });
   } catch (error) {
-    const err = new Exception(500, error);
+    const err = new Exception("error in update user ", 500, error);
     res.status(500).send(err.send());
   }
 });
@@ -105,7 +106,6 @@ UserRouter.delete("/user/:id", (req: Request, res: Response): void => {
   console.log(req.params.id);
   try {
     let id = parseInt(req.params.id);
-
     userService
       .getUser(id)
       .then((user) => {
@@ -117,20 +117,24 @@ UserRouter.delete("/user/:id", (req: Request, res: Response): void => {
               return;
             })
             .catch((error) => {
-              const err = new Exception(500, error);
+              const err = new Exception("error in update user ", 500, error);
               res.status(500).send(err.send());
             });
         } else {
-          const error = new Exception(404, "User not found");
-          res.status(404).send(error.send());
+          const err = new Exception(
+            "error in delete user ",
+            404,
+            "User not found"
+          );
+          res.status(404).send(err.send());
         }
       })
       .catch((error) => {
-        const err = new Exception(500, error);
+        const err = new Exception("error in delete user ", 500, error);
         res.status(500).send(err.send());
       });
   } catch (error) {
-    const err = new Exception(500, error);
+    const err = new Exception("error in delete user ", 500, error);
     res.status(500).send(err.send());
   }
 });

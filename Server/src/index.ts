@@ -9,4 +9,9 @@ app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
 
+app.get("/api", (req, res) => {
+  let a = "hello";
+  console.log(a);
+  res.send("Hello World");
+});
 app.use("/api", router);
