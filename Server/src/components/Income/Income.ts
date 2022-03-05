@@ -22,11 +22,10 @@ IncomeRouter.get("/income", Auth, (req: Request, res: Response): void => {
           res.json(incomes);
           return;
         }
-        const err = new Exception(
-          "error in get Income ",
-          404,
-          "Income not found"
-        );
+        const err = new Exception("error in get Income ", 404, {
+          message: "Income not found",
+          stack: "Income not found",
+        });
 
         res.status(404).send(err.send());
       })
@@ -50,11 +49,10 @@ IncomeRouter.get("/income/:id", (req: Request, res: Response): void => {
           res.json(income[0]);
           return;
         }
-        const err = new Exception(
-          "error in get Income ",
-          404,
-          "Income not found"
-        );
+        const err = new Exception("error in get Income ", 404, {
+          message: "Income not found",
+          stack: "Income not found",
+        });
 
         res.status(404).send(err.send());
       })
@@ -130,7 +128,7 @@ IncomeRouter.put("/income/:id", (req: Request, res: Response): void => {
       type: req.body.type,
       amount: req.body.amount,
       updatedAt: new Date(),
-      userId: req.body.userId,
+      userId: req.userId,
     };
     console.log(data);
     incomeService
