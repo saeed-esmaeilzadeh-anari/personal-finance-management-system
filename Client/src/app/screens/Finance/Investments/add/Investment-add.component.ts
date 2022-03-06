@@ -14,13 +14,31 @@ export class InvestmentAddComponent implements OnInit {
     name: new FormControl('', Validators.required),
     amount: new FormControl('', [Validators.required, Validators.min(1)]),
     note: new FormControl(''),
-    receivedFrom: new FormControl('', Validators.required),
     type: new FormControl('', Validators.required),
   });
   message = '';
   isEdit: boolean = false;
   id: number = 0;
-
+  types: any = [
+    {
+      name: 'Stocks',
+    },
+    {
+      name: 'Mutual Funds',
+    },
+    {
+      name: 'Cryptocurrency',
+    },
+    {
+      name: 'Bonds',
+    },
+    {
+      name: 'Bank FD',
+    },
+    {
+      name: 'Real Estate',
+    },
+  ];
   constructor(
     @Inject(MAT_DIALOG_DATA) private _data: any,
     private _matDialogRef: MatDialogRef<InvestmentAddComponent>,
@@ -35,10 +53,7 @@ export class InvestmentAddComponent implements OnInit {
     if (this._data) {
       this.isEdit = this._data?.id ? true : false;
       this.id = this._data?.id || 0;
-      this.Form.patchValue({
-        name: this._data.name,
-        isActive: this._data.isActive,
-      });
+      this.Form.patchValue(this._data);
     }
   }
 

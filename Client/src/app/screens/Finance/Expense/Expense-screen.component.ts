@@ -39,7 +39,7 @@ export class ExpenseScreenComponent implements OnInit {
     console.log(event);
   }
   getExpenseList(): void {
-    this.isLoading = false;
+    this.isLoading = true;
     this._service.searchExpenses(this.pagination).subscribe(
       (data: any) => {
         this.table$ = data.data;

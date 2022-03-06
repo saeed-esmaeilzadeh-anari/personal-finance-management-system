@@ -28,7 +28,7 @@
     <div class="px-4 py-5 bg-white sm:p-6">
       <div class="grid grid-cols-6 gap-6">
         <div class="col-span-6">
-          <mat-form-field class="w-1/2 px-3">
+          <mat-form-field class="w-1/3 px-3">
             <mat-label>Investment Name</mat-label>
             <input matInput required [formControlName]="'name'" />
             <mat-error *ngIf="Form.get('name').hasError('required')">
@@ -36,7 +36,7 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field class="w-1/2">
+          <mat-form-field class="w-1/3">
             <mat-label>Amount</mat-label>
             <input onfocus="this.select()" matInput [formControlName]="'amount'" required type="number" />
             <mat-error *ngIf="Form.get('amount').hasError('required')">
@@ -44,6 +44,19 @@
             </mat-error>
             <mat-error *ngIf="Form.get('amount').hasError('min')">
               Invalid Amount
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="w-1/3 px-3">
+            <mat-label>Type</mat-label>
+            <mat-select required [formControlName]="'type'">
+              <ng-container *ngFor="let item of types">
+                <mat-option [value]="item.name">
+                  {{ item.name }}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+            <mat-error *ngIf="Form.get('type').hasError('required')">
+              type is required
             </mat-error>
           </mat-form-field>
         </div>

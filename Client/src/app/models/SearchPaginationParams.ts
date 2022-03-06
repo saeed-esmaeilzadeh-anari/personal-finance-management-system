@@ -1,8 +1,8 @@
 export class SearchPaginationParams {
-  name?: string = "";
+  name?: string = '';
   batchSize?: number = 10;
-  order?: "ASC" | "DESC" = "DESC";
+  order?: 'asc' | 'desc' = 'desc';
   pageNumber?: number = 0;
-  sortColumn?: string = "created_at";
+  sortColumn?: string = 'createdAt';
   total: number = 0;
 }

@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { SearchPaginationParams } from 'app/models/SearchPaginationParams';
 import { environment } from 'environments/environment';
 enum Api {
-  getAll = 'income',
-  get = 'income/',
-  post = 'income',
-  put = 'income/',
-  delete = 'income/',
-  search = 'searchIncomes',
+  getAll = 'investment',
+  get = 'investment/',
+  post = 'investment',
+  put = 'investment/',
+  delete = 'investment/',
+  search = 'searchInvestment',
 }
 @Injectable({
   providedIn: 'root',
@@ -43,11 +43,10 @@ export class InvestmentsService {
     params = params.append('name', data.name.toString());
     params = params.append('batchSize', data.batchSize.toString());
     params = params.append('order', data.order.toString());
-    params = params.append('order', data.order.toString());
     params = params.append('pageNumber', data.pageNumber.toString());
     params = params.append('sortColumn', data.sortColumn.toString());
 
-    return this._http.post(this.baseUrl + Api.search, {
+    return this._http.get(this.baseUrl + Api.search, {
       observe: 'body',
       params,
     });

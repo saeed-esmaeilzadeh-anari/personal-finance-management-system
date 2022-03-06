@@ -14,7 +14,7 @@ const expenseService = new ExpenseService();
 
 ExpenseRouter.get("/expense", Auth, (req: Request, res: Response): void => {
   try {
-    let userId = req.userId;
+    const userId = req.userId;
     console.log(userId);
     expenseService
       .getExpenses(userId)
@@ -73,7 +73,7 @@ ExpenseRouter.get(
   Auth,
   (req: Request, res: Response): void => {
     try {
-      let userId = req.userId;
+      const userId = req.userId;
       let data = new SearchExpenseParams(req.query);
       data.userId = userId;
       expenseService
@@ -97,14 +97,14 @@ ExpenseRouter.get(
 /* add one  */
 ExpenseRouter.post("/expense", Auth, (req: Request, res: Response): void => {
   try {
-    let userId = req.userId;
+    const userId = req.userId;
     console.log(userId);
     let data: ExpensePostModel = {
       name: req.body.name,
       note: req.body.note,
       type: req.body.type,
       amount: req.body.amount,
-      userId: req.body.userId,
+      userId: userId,
     };
     expenseService
       .addExpense(data)
@@ -134,12 +134,14 @@ ExpenseRouter.post("/expense", Auth, (req: Request, res: Response): void => {
 ExpenseRouter.put("/expense/:id", Auth, (req: Request, res: Response): void => {
   try {
     const id = parseInt(req.params.id);
+    const userId = req.userId;
+
     let data: ExpensePutModel = {
       name: req.body.name,
       note: req.body.note,
       type: req.body.type,
       amount: req.body.amount,
-      userId: req.userId,
+      userId: userId,
       updatedAt: new Date(),
     };
     expenseService

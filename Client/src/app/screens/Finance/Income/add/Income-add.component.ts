@@ -22,19 +22,15 @@ export class IncomeAddComponent implements OnInit {
   id: number = 0;
   types: any = [
     {
-      id: 1,
       name: 'Salary',
     },
     {
-      id: 2,
       name: 'Return On Investment',
     },
     {
-      id: 3,
       name: 'Gift',
     },
     {
-      id: 4,
       name: 'Others',
     },
   ];
@@ -52,10 +48,7 @@ export class IncomeAddComponent implements OnInit {
     if (this._data) {
       this.isEdit = this._data?.id ? true : false;
       this.id = this._data?.id || 0;
-      this.Form.patchValue({
-        name: this._data.name,
-        isActive: this._data.isActive,
-      });
+      this.Form.patchValue(this._data);
     }
   }
 

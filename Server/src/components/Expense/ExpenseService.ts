@@ -36,24 +36,33 @@ export default class ExpenseService {
   }
 
   async searchExpenses(data: SearchExpenseParams) {
-    const { name, batchSize, order, pageNumber, sortColumn } = data;
-    console.log(data);
-    const total = await prisma.expense.count({
-      where: {
-        userId: data.userId,
-      },
-    });
-    const expense = await prisma.expense.findMany({
-      where: {
-        name: { contains: name },
-        userId: data.userId,
-      },
-      orderBy: {
-        [sortColumn]: order,
-      },
-      skip: batchSize * pageNumber,
-      take: batchSize,
-    });
-    return { data: expense, totalItems: total };
+    const { name, batchSize, order, pageNumber, sortColumn, userId } = data;
+    let total = 0;
+    try {
+      total = await prisma.expense.count({
+        where: {
+          userId,
+        },
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+
+    try {
+      const expense = await prisma.expense.findMany({
+        where: {
+          name: { contains: name },
+          userId: data.userId,
+        },
+        orderBy: {
+          [sortColumn]: order,
+        },
+        skip: batchSize * pageNumber,
+        take: batchSize,
+      });
+      return { data: expense, totalItems: total };
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }

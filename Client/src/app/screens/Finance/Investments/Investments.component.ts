@@ -26,6 +26,7 @@ export class InvestmentsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.pagination.order = 'desc';
     this.getIncestmentsList();
   }
   search(q: any): void {
@@ -39,7 +40,7 @@ export class InvestmentsComponent implements OnInit {
     console.log(event);
   }
   getIncestmentsList(): void {
-    this.isLoading = false;
+    this.isLoading = true;
     this._service.searchInvestments(this.pagination).subscribe(
       (data: any) => {
         this.table$ = data.data;

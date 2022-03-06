@@ -10,13 +10,19 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthService } from 'app/core/auth/auth.service';
 import { AuthUtils } from 'app/core/auth/auth.utils';
+import { Router } from '@angular/router';
+import { AlertMessageService } from '@Components/components/alert-message/alert-message.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   /**
    * Constructor
    */
-  constructor(private _authService: AuthService) {}
+  constructor(
+    private _authService: AuthService,
+    private _router: Router,
+    private _alertMessageService: AlertMessageService
+  ) {}
 
   /**
    * Intercept
@@ -46,7 +52,7 @@ export class AuthInterceptor implements HttpInterceptor {
       newReq = req.clone({
         headers: req.headers.set(
           'Authorization',
-          'Bearer ' + this._authService.accessToken
+          this._authService.accessToken
         ),
       });
     }
@@ -55,12 +61,17 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(newReq).pipe(
       catchError((error) => {
         // Catch "401 Unauthorized" responses
-        if (error instanceof HttpErrorResponse && error.status === 401) {
+
+        if (error instanceof HttpErrorResponse && error.status === 403) {
+          this._alertMessageService.error('Session Expired');
           // Sign out
           this._authService.signOut();
 
           // Reload the app
-          location.reload();
+          // location.reload();
+          this._router.navigate(['/auth/sign-in']);
+        } else {
+          this._alertMessageService.error(error?.error?.message);
         }
 
         return throwError(error);

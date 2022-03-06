@@ -14,13 +14,32 @@ export class ExpenseAddComponent implements OnInit {
     name: new FormControl('', Validators.required),
     amount: new FormControl('', [Validators.required, Validators.min(1)]),
     note: new FormControl(''),
-    receivedFrom: new FormControl('', Validators.required),
     type: new FormControl('', Validators.required),
   });
   message = '';
   isEdit: boolean = false;
   id: number = 0;
-
+  // expense type
+  types: any = [
+    {
+      name: 'Fixed expense',
+    },
+    {
+      name: 'Recurring Expense',
+    },
+    {
+      name: 'Non-Recurring Expense',
+    },
+    {
+      name: 'Whammy Expense',
+    },
+    {
+      name: 'Loss On Investment',
+    },
+    {
+      name: 'Others',
+    },
+  ];
   constructor(
     @Inject(MAT_DIALOG_DATA) private _data: any,
     private _matDialogRef: MatDialogRef<ExpenseAddComponent>,
@@ -35,10 +54,7 @@ export class ExpenseAddComponent implements OnInit {
     if (this._data) {
       this.isEdit = this._data?.id ? true : false;
       this.id = this._data?.id || 0;
-      this.Form.patchValue({
-        name: this._data.name,
-        isActive: this._data.isActive,
-      });
+      this.Form.patchValue(this._data);
     }
   }
 

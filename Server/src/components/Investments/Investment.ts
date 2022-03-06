@@ -2,7 +2,11 @@ import express, { Request, Response, Router } from "express";
 import Auth from "../../middleware/Auth";
 import InvestmentService from "./InvestmentService";
 import { Exception } from "../Exception";
-import { SearchInvestmentParams } from "./InvestmentModel";
+import {
+  SearchInvestmentParams,
+  InvestmentPostModel,
+  InvestmentPutModel,
+} from "./InvestmentModel";
 
 const InvestmentRouter: Router = express.Router();
 const investmentService = new InvestmentService();
@@ -13,8 +17,7 @@ InvestmentRouter.get(
   Auth,
   (req: Request, res: Response): void => {
     try {
-      let userId = req.userId;
-      console.log(userId);
+      const userId = req.userId;
       investmentService
         .getInvestments(userId)
         .then((investments) => {
@@ -76,7 +79,7 @@ InvestmentRouter.get(
   Auth,
   (req: Request, res: Response): void => {
     try {
-      let userId = req.userId;
+      const userId = req.userId;
       let data = new SearchInvestmentParams(req.query);
       data.userId = userId;
       investmentService
@@ -114,8 +117,16 @@ InvestmentRouter.post(
   (req: Request, res: Response): void => {
     try {
       const investment = req.body;
+      const userId = req.userId;
+      let data: InvestmentPostModel = {
+        userId: userId,
+        amount: investment.amount,
+        name: investment.name,
+        note: investment.note,
+        type: investment.type,
+      };
       investmentService
-        .addInvestment(investment)
+        .addInvestment(data)
         .then((newInvestment) => {
           if (newInvestment) {
             res.json(newInvestment);
@@ -146,8 +157,17 @@ InvestmentRouter.put(
     try {
       const id = parseInt(req.params.id);
       const investment = req.body;
+      const userId = req.userId;
+      const data: InvestmentPutModel = {
+        amount: investment.amount,
+        name: investment.name,
+        note: investment.note,
+        type: investment.type,
+        userId: userId,
+        updatedAt: new Date(),
+      };
       investmentService
-        .updateInvestment(id, investment)
+        .updateInvestment(id, data)
         .then((updatedInvestment) => {
           if (updatedInvestment) {
             res.json(updatedInvestment);

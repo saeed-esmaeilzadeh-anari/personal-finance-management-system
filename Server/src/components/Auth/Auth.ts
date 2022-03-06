@@ -26,7 +26,6 @@ AuthRouter.post("/login", (req: Request, res: Response): void => {
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-      console.log(user, userpassword);
       bcrypt.compare(userpassword, user.password).then((isMatch) => {
         if (isMatch) {
           jwt.sign(

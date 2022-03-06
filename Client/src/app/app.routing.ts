@@ -13,7 +13,7 @@ export const appRoutes: Routes = [
     path: '',
     component: LayoutComponent,
     runGuardsAndResolvers: 'always',
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
 
     children: [
       {

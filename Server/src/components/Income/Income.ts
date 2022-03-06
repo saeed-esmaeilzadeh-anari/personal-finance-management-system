@@ -13,8 +13,7 @@ const incomeService = new IncomeService();
 /* get all  */
 IncomeRouter.get("/income", Auth, (req: Request, res: Response): void => {
   try {
-    let userId = req.userId;
-    console.log(userId);
+    const userId = req.userId;
     incomeService
       .getIncomes(userId)
       .then((incomes) => {
@@ -39,7 +38,7 @@ IncomeRouter.get("/income", Auth, (req: Request, res: Response): void => {
   }
 });
 /* get one  */
-IncomeRouter.get("/income/:id", (req: Request, res: Response): void => {
+IncomeRouter.get("/income/:id", Auth, (req: Request, res: Response): void => {
   try {
     const id = parseInt(req.params.id);
     incomeService
@@ -71,8 +70,8 @@ IncomeRouter.get(
   Auth,
   (req: Request, res: Response): void => {
     try {
-      let userId = req.userId;
-      let data = new SearchIncomeParams(req.query);
+      const userId = req.userId;
+      const data = new SearchIncomeParams(req.query);
 
       data.userId = userId;
       incomeService
@@ -91,21 +90,20 @@ IncomeRouter.get(
   }
 );
 /* add one  */
-IncomeRouter.post("/income", (req: Request, res: Response): void => {
+IncomeRouter.post("/income", Auth, (req: Request, res: Response): void => {
   try {
+    const usreId = req.userId;
     let data: IncomePostModel = {
       name: req.body.name,
       note: req.body.note,
       receivedFrom: req.body.receivedFrom,
       type: req.body.type,
       amount: req.body.amount,
-      userId: req.body.userId,
+      userId: usreId,
     };
-    console.log(data);
     incomeService
       .addIncome(data)
       .then((income) => {
-        console.log(income);
         res.json(income);
       })
       .catch((error) => {
@@ -118,9 +116,11 @@ IncomeRouter.post("/income", (req: Request, res: Response): void => {
   }
 });
 /* update one  */
-IncomeRouter.put("/income/:id", (req: Request, res: Response): void => {
+IncomeRouter.put("/income/:id", Auth, (req: Request, res: Response): void => {
   try {
     const id = parseInt(req.params.id);
+    const usreId = req.userId;
+
     let data: IncomePutModel = {
       name: req.body.name,
       note: req.body.note,
@@ -128,32 +128,13 @@ IncomeRouter.put("/income/:id", (req: Request, res: Response): void => {
       type: req.body.type,
       amount: req.body.amount,
       updatedAt: new Date(),
-      userId: req.userId,
+      userId: usreId,
     };
-    console.log(data);
-    incomeService
-      .getIncome(id)
-      .then((income) => {
-        if (income) {
-          incomeService
-            .updateIncome(id, data)
-            .then((income) => {
-              console.log(income);
-              res.json(income);
-            })
-            .catch((error) => {
-              const err = new Exception("error in update Income ", 500, error);
-              res.status(500).send(err.send());
-            });
-        } else {
-          const err = new Exception(
-            "error in update Income ",
-            404,
-            "Income not found"
-          );
 
-          res.status(404).send(err.send());
-        }
+    incomeService
+      .updateIncome(id, data)
+      .then((income) => {
+        res.json(income);
       })
       .catch((error) => {
         const err = new Exception("error in update Income ", 500, error);
@@ -165,23 +146,27 @@ IncomeRouter.put("/income/:id", (req: Request, res: Response): void => {
   }
 });
 /* delete one  */
-IncomeRouter.delete("/income/:id", (req: Request, res: Response): void => {
-  try {
-    const id = parseInt(req.params.id);
+IncomeRouter.delete(
+  "/income/:id",
+  Auth,
+  (req: Request, res: Response): void => {
+    try {
+      const id = parseInt(req.params.id);
 
-    incomeService
-      .deleteIncome(id)
-      .then((income) => {
-        res.json(income);
-      })
-      .catch((error) => {
-        // const err = new Exception(500, error.message);
-        const err = new Exception("error in delete Income ", 500, error);
-        res.status(500).send(err.send());
-      });
-  } catch (error) {
-    const err = new Exception("error in delete Income ", 500, error);
-    res.status(500).send(err.send());
+      incomeService
+        .deleteIncome(id)
+        .then((income) => {
+          res.json(income);
+        })
+        .catch((error) => {
+          // const err = new Exception(500, error.message);
+          const err = new Exception("error in delete Income ", 500, error);
+          res.status(500).send(err.send());
+        });
+    } catch (error) {
+      const err = new Exception("error in delete Income ", 500, error);
+      res.status(500).send(err.send());
+    }
   }
-});
+);
 export default IncomeRouter;

@@ -39,23 +39,32 @@ export default class InvestmentService {
   }
 
   async searchInvestments(data) {
-    const { name, batchSize, order, pageNumber, sortColumn } = data;
-    const total = await prisma.investments.count({
-      where: {
-        userId: data.userId,
-      },
-    });
-    const investment = await prisma.investments.findMany({
-      where: {
-        name: { contains: name },
-        userId: data.userId,
-      },
-      orderBy: {
-        [sortColumn]: order,
-      },
-      skip: batchSize * pageNumber,
-      take: batchSize,
-    });
-    return { data: investment, totalItems: total };
+    const { name, batchSize, order, pageNumber, sortColumn, userId } = data;
+    let total = 0;
+    try {
+      total = await prisma.investments.count({
+        where: {
+          userId,
+        },
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+    try {
+      const investment = await prisma.investments.findMany({
+        where: {
+          name: { contains: name },
+          userId: data.userId,
+        },
+        orderBy: {
+          [sortColumn]: order,
+        },
+        skip: batchSize * pageNumber,
+        take: batchSize,
+      });
+      return { data: investment, totalItems: total };
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }

@@ -33,24 +33,32 @@ export default class IncomeService {
   }
 
   async searchIncomes(data: SearchIncomeParams) {
-    const { name, batchSize, order, pageNumber, sortColumn } = data;
-    console.log(data);
-    const total = await prisma.income.count({
-      where: {
-        userId: data.userId,
-      },
-    });
-    const income = await prisma.income.findMany({
-      where: {
-        name: { contains: name },
-        userId: data.userId,
-      },
-      orderBy: {
-        [sortColumn]: order,
-      },
-      skip: batchSize * pageNumber,
-      take: batchSize,
-    });
-    return { data: income, totalItems: total };
+    const { name, batchSize, order, pageNumber, sortColumn, userId } = data;
+    let total = 0;
+    try {
+      total = await prisma.income.count({
+        where: {
+          userId,
+        },
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+    try {
+      const income = await prisma.income.findMany({
+        where: {
+          name: { contains: name },
+          userId: data.userId,
+        },
+        orderBy: {
+          [sortColumn]: order,
+        },
+        skip: batchSize * pageNumber,
+        take: batchSize,
+      });
+      return { data: income, totalItems: total };
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }

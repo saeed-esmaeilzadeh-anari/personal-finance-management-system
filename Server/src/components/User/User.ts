@@ -62,7 +62,6 @@ UserRouter.put("/user/:id", Auth, (req: Request, res: Response): void => {
       email: req.body.email,
       updatedAt: new Date(),
     };
-    console.log(data);
     userService
       .updateUser(id, data)
       .then((user) => {
@@ -80,7 +79,6 @@ UserRouter.put("/user/:id", Auth, (req: Request, res: Response): void => {
 });
 
 UserRouter.delete("/user/:id", Auth, (req: Request, res: Response): void => {
-  console.log(req.params.id);
   try {
     const id = parseInt(req.params.id);
     userService

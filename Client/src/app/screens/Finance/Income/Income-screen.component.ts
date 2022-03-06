@@ -39,7 +39,7 @@ export class IncomeScreenComponent implements OnInit {
     console.log(event);
   }
   getIncomeList(): void {
-    this.isLoading = false;
+    this.isLoading = true;
     this._service.searchIncomes(this.pagination).subscribe(
       (data: any) => {
         this.table$ = data.data;
