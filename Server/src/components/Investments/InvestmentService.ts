@@ -1,5 +1,10 @@
 import { PrismaClient } from "@prisma/client";
+import { Exception } from "../Exception";
+import FinanceReportService from "../FinanceReport/FinanceReportService";
+
 const prisma = new PrismaClient();
+const financeReportService = new FinanceReportService();
+
 export default class InvestmentService {
   async getInvestments(userId) {
     const investment = await prisma.investments.findMany({
@@ -17,13 +22,23 @@ export default class InvestmentService {
 
   async addInvestment(data) {
     const investment = await prisma.investments.create({ data });
+    await financeReportService.addInvestmentFinanceReport({
+      amount: investment.amount,
+      createdAt: investment.createdAt,
+      name: investment.name,
+      note: investment.note,
+      userId: investment.userId,
+      investmentId: investment.id,
+      expenseId: 0,
+      incomeId: 0,
+    });
     return investment;
   }
 
   async updateInvestment(id, data) {
     let oldinvestment = await prisma.investments.findFirst({ where: { id } });
     if (!oldinvestment) {
-      throw new Error("Investment not found");
+      return new Error("Investment not found");
     }
     const investment = await prisma.investments.update({ where: { id }, data });
     return investment;
@@ -32,8 +47,9 @@ export default class InvestmentService {
   async deleteInvestment(id) {
     let oldinvestment = await prisma.investments.findFirst({ where: { id } });
     if (!oldinvestment) {
-      throw new Error("Investment not found");
+      return new Error("Investment not found");
     }
+    await financeReportService.deleteInvestmentFinanceReport(id);
     const investment = await prisma.investments.delete({ where: { id } });
     return investment;
   }
@@ -48,7 +64,7 @@ export default class InvestmentService {
         },
       });
     } catch (error) {
-      throw new Error(error);
+      return new Exception("error", 500, error);
     }
     try {
       const investment = await prisma.investments.findMany({
@@ -64,7 +80,7 @@ export default class InvestmentService {
       });
       return { data: investment, totalItems: total };
     } catch (error) {
-      throw new Error(error);
+      return new Exception("error", 500, error);
     }
   }
 }

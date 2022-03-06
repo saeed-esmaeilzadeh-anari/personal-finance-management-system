@@ -42,6 +42,7 @@ export class IncomeScreenComponent implements OnInit {
     this.isLoading = true;
     this._service.searchIncomes(this.pagination).subscribe(
       (data: any) => {
+        console.log(data);
         this.table$ = data.data;
         this.pagination.total = data.totalItems;
         console.log('data', data);
