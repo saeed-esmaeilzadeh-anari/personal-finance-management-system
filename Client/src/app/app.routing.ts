@@ -55,6 +55,20 @@ export const appRoutes: Routes = [
           ),
       },
       {
+        path: 'sign-up',
+        loadChildren: () =>
+          import('app/auth/sign-up/sign-up.module').then(
+            (m) => m.AuthSignUpModule
+          ),
+      },
+      {
+        path: 'forgot-password',
+        loadChildren: () =>
+          import('app/auth/forgot-password/forgot-password.module').then(
+            (m) => m.AuthForgotPasswordModule
+          ),
+      },
+      {
         path: 'sign-out',
         loadChildren: () =>
           import('app/auth/sign-out/sign-out.module').then(
