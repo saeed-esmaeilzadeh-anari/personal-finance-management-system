@@ -12,6 +12,8 @@ export class SearchReportParams {
   pageNumber?: number = 0;
   sortColumn?: string = "created_at";
   type: Type = Type.Income;
+  fromDate?: Date;
+  toDate?: Date;
   constructor(params) {
     if (params) {
       this.userId = params.userId;

@@ -30,6 +30,8 @@ import { ExpenseAddComponent } from 'app/screens/Finance/Expense/add/Expense-add
 import { InvestmentAddComponent } from 'app/screens/Finance/Investments/add/Investment-add.component';
 import { InvestmentsComponent } from 'app/screens/Finance/Investments/Investments.component';
 import { SharedModule } from 'app/shared/shared.module';
+import { FinanceReportComponent } from 'app/screens/Finance/FinanceReport/FinanceReport.component';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -64,6 +66,7 @@ import { SharedModule } from 'app/shared/shared.module';
     ExpenseAddComponent,
     InvestmentsComponent,
     InvestmentAddComponent,
+    FinanceReportComponent,
   ],
   exports: [
     IncomeScreenComponent,
@@ -72,6 +75,7 @@ import { SharedModule } from 'app/shared/shared.module';
     ExpenseAddComponent,
     InvestmentsComponent,
     InvestmentAddComponent,
+    FinanceReportComponent,
   ],
 })
 export class FinanceModule {}

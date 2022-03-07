@@ -6,6 +6,7 @@ import {
   FinancePutReport,
 } from "./FinanceReportModel";
 import { Exception } from "../Exception";
+import moment from "moment";
 
 const prisma = new PrismaClient();
 
@@ -102,11 +103,22 @@ export default class FinanceReportService {
   async searchFinanceReport(data: SearchReportParams) {
     const { name, batchSize, order, pageNumber, sortColumn, userId } = data;
     let total = 0;
+    const whereObject: any = {
+      name: { contains: name },
+      userId: data.userId,
+    };
+    if (data.fromDate && data.toDate) {
+      whereObject.createdAt = {
+        gte: moment.utc(data.fromDate).toISOString(),
+        lt: moment.utc(data.toDate).add(1, "day").toISOString(),
+      };
+    }
+    if (data.type) {
+      whereObject.type = data.type;
+    }
     try {
       total = await prisma.financeReport.count({
-        where: {
-          userId,
-        },
+        where: whereObject,
       });
     } catch (error) {
       return new Exception("error", 500, error);
@@ -114,18 +126,15 @@ export default class FinanceReportService {
 
     try {
       const report = await prisma.financeReport.findMany({
-        where: {
-          name: { contains: name },
-          userId: data.userId,
-          type: data.type,
-        },
+        where: whereObject,
         orderBy: {
           [sortColumn]: order,
         },
         skip: batchSize * pageNumber,
         take: batchSize,
       });
-      return report;
+
+      return { data: report, totalItems: total };
     } catch (error) {
       return new Exception("error", 500, error);
     }

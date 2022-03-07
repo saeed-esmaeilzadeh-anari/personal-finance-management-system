@@ -1,0 +1,183 @@
+<div class="flex flex-col flex-auto w-80 min-w-80 p-2 md:p-4">
+  <!-- Header -->
+  <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-3">
+    <!-- Title -->
+    <div class="text-4xl font-extrabold tracking-tight">Expenses</div>
+    <!-- Actions -->
+    <form #FormRef="ngForm" [formGroup]="Form">
+      <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
+
+        <!-- Search -->
+        <div class="px-3">
+
+          <mat-form-field appearance="fill" class="w-60">
+            <mat-label>Filter By Date</mat-label>
+            <mat-date-range-input [formGroup]="Form" [rangePicker]="picker">
+              <input matStartDate formControlName="fromDate" placeholder="Start date">
+              <input matEndDate formControlName="toDate" placeholder="End date" (change)="onDateChange($event)">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+
+            <mat-error *ngIf="Form.controls.fromDate.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+            <mat-error *ngIf="Form.controls.toDate.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="px-3">
+          <mat-form-field appearance="fill">
+            <mat-label>Type</mat-label>
+
+            <mat-select formControlName="type" [value]="'all'" (selectionChange)="onFilterChange($event)">
+              <mat-option [value]="'all'">All</mat-option>
+              <ng-container *ngFor="let type of types; ">
+                <mat-option [value]="type">{{type}}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="px-3">
+          <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
+            <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:search'"></mat-icon>
+            <input matInput [autocomplete]="'off'" formControlName='name' [placeholder]="'Search expens entries'"
+              (keyup)="search($event.target)" />
+          </mat-form-field>
+        </div>
+
+        <!-- New note -->
+
+      </div>
+    </form>
+  </div>
+  <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-end  mb-4">
+    <!-- Actions -->
+    <div class="flex flex-shrink-0 items-center  sm:mt-0 sm:ml-4">
+      <!-- Search -->
+      <div class="px-3">
+
+
+        <div class="flex flex-row px-3">
+          <button (click)="applyFinter()" class="ml-4 px-1 sm:px-4 min-w-10" mat-flat-button [color]="'primary'">
+            <span class="hidden sm:inline-block ml-2">Apply</span>
+          </button>
+          <button (click)="resetForm()" class="ml-4 px-1 sm:px-4 min-w-10" mat-flat-button [color]="'warn'">
+            <span class="hidden sm:inline-block ml-2">Reset</span>
+          </button>
+        </div>
+
+        <!-- New note -->
+
+      </div>
+    </div>
+  </div>
+
+  <!-- This example requires Tailwind CSS v2.0+ -->
+  <div class="flex flex-col flex-auto mt-2 overflow-hidden">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <ng-container>
+            <table class="min-w-full divide-y divide-gray-200">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    No
+                  </th>
+
+                  <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Name
+                  </th>
+                  <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Amount
+                  </th>
+
+                  <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Note
+                  </th>
+
+                  <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    type
+                  </th>
+
+                  <th scope="col"
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Created
+                  </th>
+
+                </tr>
+              </thead>
+              <tbody *ngIf="!isLoading && table$.length >= 1" class="bg-white divide-y divide-gray-200">
+                <tr *ngFor="let item of table$; let i = index">
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {{ i + 1 }}
+                  </td>
+
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {{ item.name }}
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    <ng-container *ngIf="item.type.toLowerCase()==='expense';else green">
+
+                      <span
+                        class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                        <svg class="mr-1.5 h-2 w-2 bg-red-100 text-red-800" fill="currentColor" viewBox="0 0 8 8">
+                          <circle cx="4" cy="4" r="3" />
+                        </svg>
+                        ₹ {{ item.amount | number: "1.2-2" }}
+                      </span>
+                    </ng-container>
+                    <ng-template #green>
+
+                      <span
+                        class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        <svg class="mr-1.5 h-2 w-2 bg-green-100 text-green-800" fill="currentColor" viewBox="0 0 8 8">
+                          <circle cx="4" cy="4" r="3" />
+                        </svg>
+                        ₹ {{ item.amount | number: "1.2-2" }}
+                      </span>
+                    </ng-template>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {{ item.note }}
+                  </td>
+
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    {{ item.type }}
+                  </td>
+
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {{ item.createdAt | date: "medium" }}
+                  </td>
+                </tr>
+
+                <!-- More people... -->
+              </tbody>
+            </table>
+            <ng-container *ngIf="table$.length === 0 && !isLoading">
+              <!-- This example requires Tailwind CSS v2.0+ -->
+              <div class="bg-white w-full flex justify-center items-center">
+                <button type="button"
+                  class="relative block w-full rounded-lg p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  <mat-icon class="h-32 w32" svgIcon="heroicons_outline:emoji-sad"></mat-icon>
+                  <span class="mt-2 block text-sm font-medium text-gray-900">
+                    No item Found
+                  </span>
+                </button>
+              </div>
+            </ng-container>
+            <app-table-loader *ngIf="isLoading"></app-table-loader>
+
+            <mat-paginator [length]="this.pagination.total" [pageIndex]="this.pagination.pageNumber"
+              [pageSize]="this.pagination.batchSize" [pageSizeOptions]="[10, 20, 50, 100]"
+              (page)="paginationChange($event)" aria-label="Select page">
+            </mat-paginator>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

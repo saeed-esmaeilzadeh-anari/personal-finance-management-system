@@ -46,6 +46,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
     ],
   },
   {
+    id: 'Reports',
+    title: 'Reports',
+    type: 'group',
+    icon: 'heroicons_outline:home',
+    children: [
+      {
+        id: 'Reports.Reports',
+        title: 'My Finance Reports',
+        type: 'basic',
+        icon: 'heroicons_outline:clipboard-check',
+        link: '/report',
+      },
+    ],
+  },
+  {
     id: 'Profile',
     title: 'Profile',
     type: 'group',
