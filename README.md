@@ -2,4 +2,4 @@
 
 ## Angular with nodeJs + (prisma + mysql)
 
-live demo: [Click Here](https://college-project-sem-6.herokuapp.com/report)
+live demo: [Click Here](https://college-project-sem-6.herokuapp.com)
