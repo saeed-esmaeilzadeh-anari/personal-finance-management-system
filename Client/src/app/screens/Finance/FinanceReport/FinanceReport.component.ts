@@ -28,9 +28,7 @@ export class FinanceReportComponent implements OnInit {
     private _alertMessageService: AlertMessageService
   ) {}
 
-  ngOnInit(): void {
-    this.getReport();
-  }
+  ngOnInit(): void {}
   search(q: any): void {
     this.pagination.name = q.value;
     this.getReport();
@@ -48,12 +46,14 @@ export class FinanceReportComponent implements OnInit {
   applyFinter() {
     console.log(this.Form.value);
     this.pagination.type = this.Form.value.type;
-    this.pagination.fromDate = moment(this.Form.value.fromDate).format(
-      'YYYY-MM-DD'
-    );
-    this.pagination.toDate = moment(this.Form.value.toDate).format(
-      'YYYY-MM-DD'
-    );
+    if (this.Form.value.fromDate)
+      this.pagination.fromDate = moment(this.Form.value.fromDate).format(
+        'YYYY-MM-DD'
+      );
+    if (this.Form.value.toDate)
+      this.pagination.toDate = moment(this.Form.value.toDate).format(
+        'YYYY-MM-DD'
+      );
     this.getReport();
   }
   resetForm() {
@@ -62,15 +62,18 @@ export class FinanceReportComponent implements OnInit {
     this.pagination.fromDate = '';
     this.pagination.name = '';
     this.pagination.type = 'All';
+    this.pagination.pageNumber = 0;
+
     this.getReport();
   }
   getReport(): void {
     this.isLoading = true;
     this._service.searchReport(this.pagination).subscribe(
       (data: any) => {
-        this.table$ = data.data;
-        this.pagination.total = data.totalItems;
         console.log('data', data);
+
+        this.table$ = data?.data || [];
+        this.pagination.total = data.totalItems;
         this.isLoading = false;
       },
       (error: any) => {
