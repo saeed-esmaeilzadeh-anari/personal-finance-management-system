@@ -2,7 +2,7 @@
   <!-- Header -->
   <div class="relative flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between py-3">
     <!-- Title -->
-    <div class="text-4xl font-extrabold tracking-tight">Expenses</div>
+    <div class="text-4xl font-extrabold tracking-tight">Report</div>
     <!-- Actions -->
     <form #FormRef="ngForm" [formGroup]="Form">
       <div class="flex flex-shrink-0 items-center mt-6 sm:mt-0 sm:ml-4">
@@ -38,7 +38,7 @@
         <div class="px-3">
           <mat-form-field class="fuse-mat-dense fuse-mat-no-subscript fuse-mat-rounded min-w-64">
             <mat-icon class="icon-size-5" matPrefix [svgIcon]="'heroicons_solid:search'"></mat-icon>
-            <input matInput [autocomplete]="'off'" formControlName='name' [placeholder]="'Search expens entries'"
+            <input matInput [autocomplete]="'off'" formControlName='name' [placeholder]="'Search With Name '"
               (keyup)="search($event.target)" />
           </mat-form-field>
         </div>

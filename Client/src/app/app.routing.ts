@@ -74,6 +74,13 @@ export const appRoutes: Routes = [
           ),
       },
       {
+        path: 'reset-password',
+        loadChildren: () =>
+          import('app/auth/reset-password/reset-password.module').then(
+            (m) => m.AuthResetPasswordModule
+          ),
+      },
+      {
         path: 'sign-out',
         loadChildren: () =>
           import('app/auth/sign-out/sign-out.module').then(

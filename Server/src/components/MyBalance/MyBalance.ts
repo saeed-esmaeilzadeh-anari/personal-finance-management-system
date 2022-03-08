@@ -46,19 +46,19 @@ MyBalanceRoute.get("/mybalance", Auth, async (req: Request, res: Response) => {
     });
     let data = {
       totalIncome: {
-        amount: totalIncome._sum.amount,
-        count: totalIncome._count.amount,
+        amount: totalIncome._sum.amount || 0,
+        count: totalIncome._count.amount || 0,
       },
       totalExpense: {
-        amount: totalExpense._sum.amount,
-        count: totalExpense._count.amount,
+        amount: totalExpense._sum.amount || 0,
+        count: totalExpense._count.amount || 0,
       },
       totalInvestment: {
-        amount: totalInvestment._sum.amount,
-        count: totalInvestment._count.amount,
+        amount: totalInvestment._sum.amount || 0,
+        count: totalInvestment._count.amount || 0,
       },
       Balance: {
-        amount: totalIncome._sum.amount - totalExpense._sum.amount,
+        amount: totalIncome._sum.amount - totalExpense._sum.amount || 0,
         count: 1,
       },
     };

@@ -51,6 +51,7 @@ AuthRouter.post("/login", (req: Request, res: Response): void => {
   } catch (error) {
     const err = new Exception("error in Login ", 500, error);
     res.status(500).send(err.send());
+    return;
   }
 });
 /**
